@@ -5,6 +5,8 @@ import '../settings/settings_view.dart';
 import 'sample_item.dart';
 import 'rooms.dart';
 import '../components/room_card.dart';
+import 'package:circular_menu/circular_menu.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 
 /// Displays a list of SampleItems.
 final List<String> entries = <String>['A', 'B', 'C'];
@@ -28,57 +30,84 @@ class SampleItemListView extends StatelessWidget {
 
   final List<SampleItem> items;
 
+  String _colorName = 'No';
+  Color _color = Colors.black;
+
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).primaryColor;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text(''),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.format_align_left,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.black,
+      appBar: appBar(context),
+      // bottomNavigationBar: bottomNavigationBar,
+      body: SafeArea(
+        child: Column(
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(flex: 1, child: atisPicture()),
+            Flexible(flex: 3, child: BarChartSample2()),
+            Flexible(
+              flex: 1,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: rooms.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return roomCard(items: rooms[index]);
+                },
               ),
-              onPressed: () {
-                // Navigate to the settings page. If the user leaves and returns
-                // to the app after it has been killed while running in the
-                // background, the navigation stack is restored.
-                Navigator.restorablePushNamed(context, SettingsView.routeName);
-              },
             ),
+            Expanded(child: circularMenu),
+            // Expanded(flex: 1, child: Container())
           ],
         ),
-        body: SafeArea(
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(flex: 1, child: atisPicture()),
-              Expanded(flex: 3, child: BarChartSample2()),
-              Expanded(
-                flex: 1,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: rooms.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return roomCard(items: rooms[index]);
-                  },
-                ),
-              ),
-              // Expanded(flex: 1, child: Container())
-            ],
+      ),
+    );
+  }
+
+  BottomNavigationBar get bottomNavigationBar => BottomNavigationBar(
+      items: [BottomNavigationBarItem(icon: Icon(Icons.hail), label: "page1"), BottomNavigationBarItem(icon: Icon(Icons.hail), label: 'page2')]);
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      title: const Text(''),
+      centerTitle: true,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.format_align_left,
+          color: Colors.black,
+        ),
+        onPressed: () {},
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.settings,
+            color: Colors.black,
           ),
-        ));
+          onPressed: () {
+            // Navigate to the settings page. If the user leaves and returns
+            // to the app after it has been killed while running in the
+            // background, the navigation stack is restored.
+            Navigator.restorablePushNamed(context, SettingsView.routeName);
+          },
+        ),
+      ],
+    );
+  }
+
+  CircularMenu get circularMenu {
+    return CircularMenu(
+      alignment: Alignment.bottomCenter,
+      toggleButtonColor: Colors.pink,
+      items: [
+        CircularMenuItem(icon: Icons.home, color: Colors.green, onTap: () {}),
+        CircularMenuItem(icon: Icons.search, color: Colors.blue, onTap: () {}),
+        CircularMenuItem(icon: Icons.settings, color: Colors.orange, onTap: () {}),
+        CircularMenuItem(icon: Icons.chat, color: Colors.purple, onTap: () {}),
+        CircularMenuItem(icon: Icons.notifications, color: Colors.brown, onTap: () {})
+      ],
+    );
   }
 
   Container atisPicture() {

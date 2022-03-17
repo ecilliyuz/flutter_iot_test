@@ -2,8 +2,8 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
 
 class BulbSwitch extends StatefulWidget {
-  BulbSwitch({Key? key}) : super(key: key);
-
+  BulbSwitch({Key? key, required this.postData}) : super(key: key);
+  final Function postData;
   @override
   State<BulbSwitch> createState() => _BulbSwitchState();
 }
@@ -33,6 +33,7 @@ class _BulbSwitchState extends State<BulbSwitch> {
       animate: true, // with just animate set to true, default curve = Curves.easeIn
       curve: Curves.bounceInOut, // animate must be set to true when using custom curve
       onToggle: (index) {
+        widget.postData(index == 1 ? 'true' : 'false');
         print('switched to: $index');
       },
     ));

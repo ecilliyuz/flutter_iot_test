@@ -17,6 +17,11 @@ dependencies:
   fl_chart: ^0.46.0
   toggle_switch: ^1.4.0
   font_awesome_flutter: ^9.2.0
+  sleek_circular_slider: ^2.0.1
+  settings_ui: ^2.0.2
+  http: ^0.13.4
+  circular_menu: ^1.2.3
+  day_night_time_picker: ^1.0.5
 
 dev_dependencies:
   flutter_test:
